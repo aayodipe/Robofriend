@@ -1,0 +1,22 @@
+.card {
+width: auto;
+    height: 35rem;
+    flex: 1 0 1;
+}
+
+.card .content {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items:center;
+    margin-top: 2rem;
+}
+
+.content .heading {
+    font-size: 3rem;
+
+}
+.content .email {
+    font-size: 1.5rem;
+
+}
