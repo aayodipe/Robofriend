@@ -1,37 +1,32 @@
-import { Component } from 'react';
+import React from 'react'
+import { useState,useEffect } from 'react';
 import './App.css';
 import CardList from './component/CardList';
 import Searchbox from './component/Searchbox';
 
 
+export default function App(){
+const [robots, setRobots] = useState([]);
+const [searchField, setSearchField] = useState('');
 
-class App extends Component {
-constructor(){
-  super();
-  this.state = {
-    robots: [],
-    searchField :''
-  }
-}
- searchChance = e => {
+const searchChance = e => {
   //  Set the value of the searchField to the event target value
-    this.setState({searchField: e.target.value})
+    setSearchField(e.target.value)
 }
 
-componentDidMount(){
+useEffect(()=> {
   fetch('https://jsonplaceholder.typicode.com/users')
   .then(response => response.json())
-  .then(users => this.setState({robots:users}))
-}
+  .then(users => setRobots(users))
 
-render(){
-  const {robots, searchField} = this.state;
-  const filterRobots = robots.filter(robot=>{
-    return (
-      robot.name.toLowerCase()
-      .includes(searchField.toLowerCase())
-    )
+}, [])// only run if robot array changes
+
+//Search for Robots
+  const filterRobots = robots.filter(robot => {
+    return robot.name.toLowerCase()
+    .includes(searchField.toLowerCase())
   })
+ 
 // Display loading icon when robot is empty
 return !robots.length ?
     (   
@@ -44,14 +39,12 @@ return !robots.length ?
     ):(
     <div className="tc">
       <h1>RobotFriends</h1>
-        <Searchbox  searchChance = {this.searchChance}/>
+        <Searchbox  searchChance = {searchChance}/>
         <CardList robots= {filterRobots}/>
     </div>
   )
  
  
 }
-}
 
 
-export default App;
